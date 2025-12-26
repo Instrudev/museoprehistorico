@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../config/database.php';
 
-class Reservation
+class Reserva
 {
     public function create(array $data): bool
     {

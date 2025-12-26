@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../models/Reservation.php';
+require_once __DIR__ . '/../models/Reserva.php';
 
 $config = require __DIR__ . '/../config/config.php';
 $whatsappNumber = $config['whatsapp_number'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /index.php');
+    header('Location: /public/index.php');
     exit;
 }
 
@@ -38,7 +38,7 @@ $dateObject = DateTime::createFromFormat('Y-m-d', $visitDate);
 $dateIsValid = $dateObject && $dateObject->format('Y-m-d') === $visitDate;
 
 if ($fullName === '' || $phone === '' || !$dateIsValid || !in_array($numPeople, $allowedPeople, true) || !in_array($tourType, $allowedTours, true) || !in_array($paymentMethod, $allowedPayments, true)) {
-    header('Location: /index.php?status=invalid');
+    header('Location: /public/index.php?status=invalid');
     exit;
 }
 
@@ -49,7 +49,7 @@ $accessibilityAutism = isset($_POST['accessibility_autism']) ? 1 : 0;
 $accessibilitySenior = isset($_POST['accessibility_senior']) ? 1 : 0;
 $accessibilityCognitive = isset($_POST['accessibility_cognitive']) ? 1 : 0;
 
-$reservation = new Reservation();
+$reservation = new Reserva();
 
 try {
     $saved = $reservation->create([
@@ -72,7 +72,7 @@ try {
 }
 
 if (!$saved) {
-    header('Location: /index.php?status=error');
+    header('Location: /public/index.php?status=error');
     exit;
 }
 
