@@ -1,3 +1,22 @@
+<?php
+$status = $_GET['status'] ?? null;
+$statusMessage = '';
+$statusClass = '';
+$whatsappRedirectUrl = null;
+
+if ($status === 'success') {
+    $statusMessage = "✅ ¡Reserva registrada con éxito!\n"
+        . "Tu solicitud fue enviada correctamente.\n"
+        . "En este momento serás redirigido(a) a WhatsApp para confirmar tu reserva con el Museo Prehistórico Huilassik Park para la Paz.";
+    $statusClass = 'bg-green-600';
+
+    if (!empty($_SESSION['reservation_whatsapp_url'])) {
+        $whatsappRedirectUrl = $_SESSION['reservation_whatsapp_url'];
+        unset($_SESSION['reservation_whatsapp_url']);
+    }
+}
+?>
+
 <section id="reservas" class="section-panel py-16 px-6" style="background-color: #FFF9E6;">
      <div class="max-w-5xl mx-auto">
       <div class="bg-white rounded-3xl card-shadow p-8">
@@ -61,10 +80,17 @@
            </div></label>
          </div>
         </div>
-        <?php if ($statusMessage) { ?>
-         <div class="p-4 rounded-xl text-white font-semibold text-center <?php echo $statusClass; ?>">
-          <?php echo htmlspecialchars($statusMessage, ENT_QUOTES, 'UTF-8'); ?>
+        <?php if ($statusMessage !== '') { ?>
+         <div class="p-4 rounded-xl text-white font-semibold text-center <?php echo $statusClass; ?>" role="status" aria-live="polite">
+          <?php echo nl2br(htmlspecialchars($statusMessage, ENT_QUOTES, 'UTF-8')); ?>
          </div>
+        <?php } ?>
+        <?php if ($whatsappRedirectUrl) { ?>
+         <script>
+           window.setTimeout(function () {
+             window.location.href = <?php echo json_encode($whatsappRedirectUrl, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>;
+           }, 1500);
+         </script>
         <?php } ?>
         <div class="flex gap-4"><button type="submit" class="flex-1 btn-primary px-8 py-4 rounded-full text-white font-bold text-lg" style="background-color: #F07F1A;"> Confirmar Reserva </button> <a href="https://api.whatsapp.com/send?phone=<?php echo urlencode($whatsappNumber); ?>" target="_blank" rel="noopener noreferrer" id="btn-whatsapp-reserve" class="btn-primary px-8 py-4 rounded-full text-white font-bold text-lg flex items-center gap-2" style="background-color: #25D366;"> <span class="text-2xl">💬</span> Reservar por WhatsApp </a>
         </div>

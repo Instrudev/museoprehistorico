@@ -13,6 +13,10 @@ if (!BASE_PATH) {
 /**
  * Configuración
  */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $configPath = BASE_PATH . '/config/config.php';
 if (!file_exists($configPath)) {
     die('Archivo de configuración no encontrado.');

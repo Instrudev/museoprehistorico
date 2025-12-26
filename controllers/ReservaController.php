@@ -5,6 +5,10 @@ require_once __DIR__ . '/../models/Reserva.php';
 $config = require __DIR__ . '/../config/config.php';
 $whatsappNumber = $config['whatsapp_number'] ?? '';
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /public/index.php');
     exit;
@@ -91,5 +95,6 @@ $whatsappUrl = sprintf(
     urlencode($message)
 );
 
-header('Location: ' . $whatsappUrl);
+$_SESSION['reservation_whatsapp_url'] = $whatsappUrl;
+header('Location: /public/index.php?page=reservas&status=success');
 exit;
