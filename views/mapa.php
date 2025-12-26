@@ -1,4 +1,4 @@
-<section id="mapa" class="section-panel py-16 px-6 gradient-section" style="display: none;">
+<section id="mapa" class="section-panel py-16 px-6 gradient-section">
      <div class="max-w-6xl mx-auto">
       <h3 class="text-4xl font-bold mb-4 text-center" style="color: #68420F;">🌍 Línea del Tiempo: La Evolución de la Vida</h3>
       <p class="text-center text-lg mb-10" style="color: #68420F;">Desde los primeros seres vivos hasta el ser humano</p><!-- Línea del tiempo horizontal interactiva -->

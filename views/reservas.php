@@ -1,4 +1,4 @@
-<section id="reservas" class="section-panel py-16 px-6" style="background-color: #FFF9E6; display: none;">
+<section id="reservas" class="section-panel py-16 px-6" style="background-color: #FFF9E6;">
      <div class="max-w-5xl mx-auto">
       <div class="bg-white rounded-3xl card-shadow p-8">
        <h3 class="text-3xl font-bold mb-3 text-center" style="color: #68420F;">Reserva tu Visita</h3>

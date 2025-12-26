@@ -13,12 +13,19 @@ if ($status === 'invalid') {
     $statusClass = 'bg-red-600';
 }
 
+$allowedPages = [
+    'inicio',
+    'reservas',
+    'dinosaurios',
+    'experiencias',
+    'mapa',
+    'tarifas',
+    'eventos',
+];
+
+$page = $_GET['page'] ?? 'inicio';
+$page = in_array($page, $allowedPages, true) ? $page : 'inicio';
+
 require __DIR__ . '/../views/header.php';
-require __DIR__ . '/../views/inicio.php';
-require __DIR__ . '/../views/reservas.php';
-require __DIR__ . '/../views/dinosaurios.php';
-require __DIR__ . '/../views/experiencias.php';
-require __DIR__ . '/../views/mapa.php';
-require __DIR__ . '/../views/tarifas.php';
-require __DIR__ . '/../views/eventos.php';
+require __DIR__ . '/../views/' . $page . '.php';
 require __DIR__ . '/../views/footer.php';

@@ -1,4 +1,4 @@
-<section id="tarifas" class="section-panel py-16 px-6 bg-white" style="display: none;">
+<section id="tarifas" class="section-panel py-16 px-6 bg-white">
      <div class="max-w-6xl mx-auto">
       <h3 class="text-4xl font-bold mb-4 text-center" style="color: #68420F;">💰 Tarifas Accesibles</h3>
       <p class="text-center text-lg mb-10" style="color: #68420F;">Precios justos para que todos puedan disfrutar</p><!-- Tarifas Principales -->

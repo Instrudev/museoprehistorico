@@ -14,14 +14,28 @@ const defaultConfig = {
       button_color: "#E52621"
     };
 
+    const setText = (id, value) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.textContent = value;
+      }
+    };
+
+    const setHtml = (id, value) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.innerHTML = value;
+      }
+    };
+
     async function onConfigChange(config) {
-      document.getElementById('museum-name').textContent = config.museum_name || defaultConfig.museum_name;
-      document.getElementById('hero-title').textContent = config.hero_title || defaultConfig.hero_title;
-      document.getElementById('hero-subtitle').textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
-      document.getElementById('footer-description').textContent = config.footer_description || defaultConfig.footer_description;
-      document.getElementById('contact-email').textContent = config.contact_email || defaultConfig.contact_email;
-      document.getElementById('contact-phone').textContent = config.contact_phone || defaultConfig.contact_phone;
-      document.getElementById('contact-address').textContent = config.contact_address || defaultConfig.contact_address;
+      setText('museum-name', config.museum_name || defaultConfig.museum_name);
+      setText('hero-title', config.hero_title || defaultConfig.hero_title);
+      setText('hero-subtitle', config.hero_subtitle || defaultConfig.hero_subtitle);
+      setText('footer-description', config.footer_description || defaultConfig.footer_description);
+      setText('contact-email', config.contact_email || defaultConfig.contact_email);
+      setText('contact-phone', config.contact_phone || defaultConfig.contact_phone);
+      setText('contact-address', config.contact_address || defaultConfig.contact_address);
     }
 
     function mapToCapabilities(config) {
@@ -91,76 +105,53 @@ const defaultConfig = {
       });
     }
 
-    // SPA Navigation
-    let currentSection = 'inicio';
-    
-    function navigateToSection(sectionId) {
-      // Hide all sections
-      document.querySelectorAll('.section-panel').forEach(section => {
-        section.style.display = 'none';
-      });
-      
-      // Show selected section
-      const targetSection = document.getElementById(sectionId);
-      if (targetSection) {
-        targetSection.style.display = 'block';
-        currentSection = sectionId;
-        
-        // Update active nav button
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-          if (btn.dataset.section === sectionId) {
-            btn.style.color = '#F07F1A';
-            btn.style.fontWeight = '700';
-          } else {
-            btn.style.color = '#68420F';
-            btn.style.fontWeight = '500';
-          }
-        });
-        
-        // Scroll to top of container
-        document.getElementById('spa-container').scrollTop = 0;
+    const allowedPages = [
+      'inicio',
+      'reservas',
+      'dinosaurios',
+      'experiencias',
+      'mapa',
+      'tarifas',
+      'eventos'
+    ];
+    const params = new URLSearchParams(window.location.search);
+    const currentPageParam = params.get('page') || 'inicio';
+    const currentPage = allowedPages.includes(currentPageParam) ? currentPageParam : 'inicio';
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      if (btn.dataset.section === currentPage) {
+        btn.style.color = '#F07F1A';
+        btn.style.fontWeight = '700';
+      } else {
+        btn.style.color = '#68420F';
+        btn.style.fontWeight = '500';
       }
+    });
+
+    const museumName = document.getElementById('museum-name');
+    if (museumName) {
+      museumName.addEventListener('click', () => {
+        window.location.href = '/public/index.php?page=inicio';
+      });
     }
     
-    // Add click handlers to navigation buttons
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        navigateToSection(btn.dataset.section);
-      });
-    });
-    
-    // Museum name click handler
-    document.getElementById('museum-name').addEventListener('click', () => {
-      navigateToSection('inicio');
-    });
-    
-    // Hero buttons functionality
-    document.getElementById('btn-hero-reservar').addEventListener('click', () => {
-      navigateToSection('reservas');
-    });
-    
-    document.getElementById('btn-hero-explorar').addEventListener('click', () => {
-      navigateToSection('mapa');
-    });
-    
     // Video player functionality
-    document.getElementById('btn-play-video').addEventListener('click', () => {
-      const videoPlayer = document.getElementById('video-player');
-      const videoIframe = document.getElementById('video-iframe');
-      
-      // You can replace this URL with an actual video URL (YouTube, Vimeo, etc.)
-      videoIframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
-      
-      videoPlayer.style.display = 'block';
-    });
-    
-    document.getElementById('btn-close-video').addEventListener('click', () => {
-      const videoPlayer = document.getElementById('video-player');
-      const videoIframe = document.getElementById('video-iframe');
-      
-      videoIframe.src = '';
-      videoPlayer.style.display = 'none';
-    });
+    const playButton = document.getElementById('btn-play-video');
+    const closeButton = document.getElementById('btn-close-video');
+    const videoPlayer = document.getElementById('video-player');
+    const videoIframe = document.getElementById('video-iframe');
+
+    if (playButton && closeButton && videoPlayer && videoIframe) {
+      playButton.addEventListener('click', () => {
+        videoIframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
+        videoPlayer.style.display = 'block';
+      });
+
+      closeButton.addEventListener('click', () => {
+        videoIframe.src = '';
+        videoPlayer.style.display = 'none';
+      });
+    }
 
     // Accessibility features
     let fontSize = 100;
@@ -168,57 +159,70 @@ const defaultConfig = {
     let isEasyRead = false;
     let currentLang = 'es';
 
-    document.getElementById('btn-font-increase').addEventListener('click', () => {
-      fontSize = Math.min(fontSize + 10, 150);
-      document.documentElement.style.fontSize = fontSize + '%';
-      
-      // Show notification
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-24 right-6 px-6 py-4 rounded-full text-white font-semibold shadow-lg z-50';
-      notification.style.backgroundColor = '#25D366';
-      notification.textContent = '✓ Texto más grande: ' + fontSize + '%';
-      document.body.appendChild(notification);
-      setTimeout(() => notification.remove(), 2000);
-    });
+    const fontIncreaseBtn = document.getElementById('btn-font-increase');
+    const fontDecreaseBtn = document.getElementById('btn-font-decrease');
+    const contrastBtn = document.getElementById('btn-contrast');
+    const easyReadBtn = document.getElementById('btn-easy-read');
 
-    document.getElementById('btn-font-decrease').addEventListener('click', () => {
-      fontSize = Math.max(fontSize - 10, 80);
-      document.documentElement.style.fontSize = fontSize + '%';
-      
-      // Show notification
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-24 right-6 px-6 py-4 rounded-full text-white font-semibold shadow-lg z-50';
-      notification.style.backgroundColor = '#25D366';
-      notification.textContent = '✓ Texto más pequeño: ' + fontSize + '%';
-      document.body.appendChild(notification);
-      setTimeout(() => notification.remove(), 2000);
-    });
+    if (fontIncreaseBtn) {
+      fontIncreaseBtn.addEventListener('click', () => {
+        fontSize = Math.min(fontSize + 10, 150);
+        document.documentElement.style.fontSize = fontSize + '%';
+        
+        // Show notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-24 right-6 px-6 py-4 rounded-full text-white font-semibold shadow-lg z-50';
+        notification.style.backgroundColor = '#25D366';
+        notification.textContent = '✓ Texto más grande: ' + fontSize + '%';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 2000);
+      });
+    }
 
-    document.getElementById('btn-contrast').addEventListener('click', () => {
-      isHighContrast = !isHighContrast;
-      document.body.classList.toggle('high-contrast', isHighContrast);
-      
-      // Show notification
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-24 right-6 px-6 py-4 rounded-full text-white font-semibold shadow-lg z-50';
-      notification.style.backgroundColor = '#25D366';
-      notification.textContent = isHighContrast ? '✓ Alto contraste activado' : '✓ Contraste normal';
-      document.body.appendChild(notification);
-      setTimeout(() => notification.remove(), 2000);
-    });
+    if (fontDecreaseBtn) {
+      fontDecreaseBtn.addEventListener('click', () => {
+        fontSize = Math.max(fontSize - 10, 80);
+        document.documentElement.style.fontSize = fontSize + '%';
+        
+        // Show notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-24 right-6 px-6 py-4 rounded-full text-white font-semibold shadow-lg z-50';
+        notification.style.backgroundColor = '#25D366';
+        notification.textContent = '✓ Texto más pequeño: ' + fontSize + '%';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 2000);
+      });
+    }
 
-    document.getElementById('btn-easy-read').addEventListener('click', () => {
-      isEasyRead = !isEasyRead;
-      document.body.classList.toggle('easy-read', isEasyRead);
-      
-      // Show notification
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-24 right-6 px-6 py-4 rounded-full text-white font-semibold shadow-lg z-50';
-      notification.style.backgroundColor = '#25D366';
-      notification.textContent = isEasyRead ? '✓ Lectura fácil activada' : '✓ Lectura normal';
-      document.body.appendChild(notification);
-      setTimeout(() => notification.remove(), 2000);
-    });
+    if (contrastBtn) {
+      contrastBtn.addEventListener('click', () => {
+        isHighContrast = !isHighContrast;
+        document.body.classList.toggle('high-contrast', isHighContrast);
+        
+        // Show notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-24 right-6 px-6 py-4 rounded-full text-white font-semibold shadow-lg z-50';
+        notification.style.backgroundColor = '#25D366';
+        notification.textContent = isHighContrast ? '✓ Alto contraste activado' : '✓ Contraste normal';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 2000);
+      });
+    }
+
+    if (easyReadBtn) {
+      easyReadBtn.addEventListener('click', () => {
+        isEasyRead = !isEasyRead;
+        document.body.classList.toggle('easy-read', isEasyRead);
+        
+        // Show notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-24 right-6 px-6 py-4 rounded-full text-white font-semibold shadow-lg z-50';
+        notification.style.backgroundColor = '#25D366';
+        notification.textContent = isEasyRead ? '✓ Lectura fácil activada' : '✓ Lectura normal';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 2000);
+      });
+    }
 
     // Language translations
     const translations = {
@@ -282,21 +286,27 @@ const defaultConfig = {
     };
 
     // Language switcher
+    const btnLangEs = document.getElementById('btn-lang-es');
+    const btnLangEn = document.getElementById('btn-lang-en');
+    const btnLangFr = document.getElementById('btn-lang-fr');
+
     function setActiveLanguage(lang) {
       currentLang = lang;
       
       // Reset all buttons
-      document.getElementById('btn-lang-es').style.backgroundColor = '#FADD66';
-      document.getElementById('btn-lang-es').style.color = '#68420F';
-      document.getElementById('btn-lang-en').style.backgroundColor = '#FADD66';
-      document.getElementById('btn-lang-en').style.color = '#68420F';
-      document.getElementById('btn-lang-fr').style.backgroundColor = '#FADD66';
-      document.getElementById('btn-lang-fr').style.color = '#68420F';
+      [btnLangEs, btnLangEn, btnLangFr].forEach((btn) => {
+        if (btn) {
+          btn.style.backgroundColor = '#FADD66';
+          btn.style.color = '#68420F';
+        }
+      });
       
       // Set active button
       const activeBtn = document.getElementById(`btn-lang-${lang}`);
-      activeBtn.style.backgroundColor = '#F07F1A';
-      activeBtn.style.color = 'white';
+      if (activeBtn) {
+        activeBtn.style.backgroundColor = '#F07F1A';
+        activeBtn.style.color = 'white';
+      }
       
       // Translation content based on language
       const content = {
@@ -434,25 +444,29 @@ const defaultConfig = {
       const t = content[lang];
       
       // Update hero section
-      document.getElementById('museum-name').textContent = t.museum_name;
-      document.getElementById('hero-title').textContent = t.hero_title;
-      document.getElementById('hero-subtitle').textContent = t.hero_subtitle;
-      document.getElementById('btn-hero-reservar').textContent = t.btn_reserve;
-      document.getElementById('btn-hero-explorar').textContent = t.btn_explore;
+      setText('museum-name', t.museum_name);
+      setText('hero-title', t.hero_title);
+      setText('hero-subtitle', t.hero_subtitle);
+      setText('btn-hero-reservar', t.btn_reserve);
+      setText('btn-hero-explorar', t.btn_explore);
       
       // Update navigation buttons
       const navButtons = document.querySelectorAll('.nav-btn');
-      navButtons[0].textContent = t.nav_inicio;
-      navButtons[1].textContent = t.nav_reservas;
-      navButtons[2].textContent = t.nav_dinosaurios;
-      navButtons[3].textContent = t.nav_experiencias;
-      navButtons[4].textContent = t.nav_mapa;
-      navButtons[5].textContent = t.nav_tarifas;
-      navButtons[6].textContent = t.nav_eventos;
+      if (navButtons.length >= 7) {
+        navButtons[0].textContent = t.nav_inicio;
+        navButtons[1].textContent = t.nav_reservas;
+        navButtons[2].textContent = t.nav_dinosaurios;
+        navButtons[3].textContent = t.nav_experiencias;
+        navButtons[4].textContent = t.nav_mapa;
+        navButtons[5].textContent = t.nav_tarifas;
+        navButtons[6].textContent = t.nav_eventos;
+      }
       
       // Update accessibility bar
-      document.querySelector('#accessibility-bar .flex span:first-child').textContent = t.accessibility;
-      document.querySelector('#accessibility-bar .flex:last-child span:first-child').textContent = t.language;
+      const accessibilityLabel = document.querySelector('#accessibility-bar .flex span:first-child');
+      if (accessibilityLabel) accessibilityLabel.textContent = t.accessibility;
+      const languageLabel = document.querySelector('#accessibility-bar .flex:last-child span:first-child');
+      if (languageLabel) languageLabel.textContent = t.language;
       
       // Update video section
       const videoSection = document.querySelector('#inicio .max-w-4xl');
@@ -471,11 +485,8 @@ const defaultConfig = {
       const dinoSection = document.querySelector('#dinosaurios h3');
       if (dinoSection) dinoSection.textContent = t.our_dinosaurs;
       
-      const btnHearRoar = document.getElementById('btn-dino-sound');
-      if (btnHearRoar) btnHearRoar.innerHTML = t.btn_hear_roar;
-      
-      const btnDescription = document.getElementById('btn-audio-description');
-      if (btnDescription) btnDescription.innerHTML = t.btn_description;
+      setHtml('btn-dino-sound', t.btn_hear_roar);
+      setHtml('btn-audio-description', t.btn_description);
       
       const sizeComparisonTitle = document.querySelector('#dinosaurios h5');
       if (sizeComparisonTitle && sizeComparisonTitle.textContent.includes('Comparación') || sizeComparisonTitle && sizeComparisonTitle.textContent.includes('Comparison') || sizeComparisonTitle && sizeComparisonTitle.textContent.includes('Comparaison')) {
@@ -487,14 +498,9 @@ const defaultConfig = {
         curiousFact.textContent = t.curious_fact;
       }
       
-      const btnAnotherFact = document.getElementById('btn-random-fact');
-      if (btnAnotherFact) btnAnotherFact.textContent = t.btn_another_fact;
-      
-      const btnPrevDino = document.getElementById('btn-prev-dino');
-      if (btnPrevDino) btnPrevDino.textContent = t.btn_previous;
-      
-      const btnNextDino = document.getElementById('btn-next-dino');
-      if (btnNextDino) btnNextDino.textContent = t.btn_next;
+      setText('btn-random-fact', t.btn_another_fact);
+      setText('btn-prev-dino', t.btn_previous);
+      setText('btn-next-dino', t.btn_next);
       
       // Update dino stats labels
       const statsLabels = document.querySelectorAll('#dinosaurios .rounded-xl p.text-sm');
@@ -514,12 +520,20 @@ const defaultConfig = {
       setTimeout(() => notification.remove(), 3000);
     }
 
-    document.getElementById('btn-lang-es').addEventListener('click', () => setActiveLanguage('es'));
-    document.getElementById('btn-lang-en').addEventListener('click', () => setActiveLanguage('en'));
-    document.getElementById('btn-lang-fr').addEventListener('click', () => setActiveLanguage('fr'));
+    if (btnLangEs) {
+      btnLangEs.addEventListener('click', () => setActiveLanguage('es'));
+    }
+    if (btnLangEn) {
+      btnLangEn.addEventListener('click', () => setActiveLanguage('en'));
+    }
+    if (btnLangFr) {
+      btnLangFr.addEventListener('click', () => setActiveLanguage('fr'));
+    }
 
     // Form submission
     // ============= DINOSAUR CAROUSEL WITH EXPANDED FEATURES =============
+    const dinoRoot = document.getElementById('dino-emoji');
+    if (dinoRoot) {
     const dinosaurs = [
       { 
         name: 'Tiranosaurio Rex', 
@@ -908,4 +922,5 @@ const defaultConfig = {
 
     // Load default stage (dinosaurs)
     updateEvolutionStage('dinosaurios');
+    }
 });

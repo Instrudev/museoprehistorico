@@ -5,7 +5,7 @@
       </div>
       <h2 id="hero-title" class="text-5xl md:text-6xl font-bold mb-4" style="color: #68420F;">Descubre el Pasado Prehistórico en Neiva</h2>
       <p id="hero-subtitle" class="text-xl md:text-2xl mb-8 font-medium" style="color: #68420F;">Una experiencia educativa única que combina ciencia, paz y el fascinante mundo de los dinosaurios en un entorno accesible para todos.</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center"><button id="btn-hero-reservar" class="btn-primary px-8 py-4 rounded-full text-white font-bold text-lg" style="background-color: #E52621;">Reservar Visita</button> <button id="btn-hero-explorar" class="btn-primary px-8 py-4 rounded-full font-bold text-lg" style="background-color: #FADD66; color: #68420F; border: 2px solid #68420F;">Explorar Parque</button>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center"><a id="btn-hero-reservar" class="btn-primary px-8 py-4 rounded-full text-white font-bold text-lg" style="background-color: #E52621;" href="/public/index.php?page=reservas">Reservar Visita</a> <a id="btn-hero-explorar" class="btn-primary px-8 py-4 rounded-full font-bold text-lg" style="background-color: #FADD66; color: #68420F; border: 2px solid #68420F;" href="/public/index.php?page=mapa">Explorar Parque</a>
       </div>
      </div><!-- Vive la Experiencia Video Section -->
      <div class="max-w-4xl mx-auto mt-20">

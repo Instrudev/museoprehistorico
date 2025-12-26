@@ -1,4 +1,4 @@
-<section id="dinosaurios" class="section-panel py-16 px-6 gradient-section" style="display: none;">
+<section id="dinosaurios" class="section-panel py-16 px-6 gradient-section">
      <div class="max-w-6xl mx-auto">
       <h3 class="text-4xl font-bold mb-10 text-center" style="color: #68420F;">🦕 Nuestros Dinosaurios</h3><!-- Tarjeta principal del dinosaurio -->
       <div class="bg-white rounded-3xl card-shadow p-8 mb-8">

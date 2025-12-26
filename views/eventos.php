@@ -1,4 +1,4 @@
-<section id="eventos" class="section-panel py-16 px-6 gradient-section" style="display: none;">
+<section id="eventos" class="section-panel py-16 px-6 gradient-section">
      <div class="max-w-6xl mx-auto">
       <h3 class="text-4xl font-bold mb-10 text-center" style="color: #68420F;">📅 Próximos Eventos</h3><!-- Taller Destacado -->
       <div class="bg-white rounded-3xl card-shadow p-8 mb-12 border-4 relative" style="border-color: #F07F1A;">
