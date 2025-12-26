@@ -17,6 +17,13 @@ if ($status === 'success') {
 }
 ?>
 
+<style>
+  #spa-container {
+    height: auto;
+    overflow-y: visible;
+  }
+</style>
+
 <section id="reservas" class="section-panel py-16 px-6" style="background-color: #FFF9E6;">
      <div class="max-w-5xl mx-auto">
       <div class="bg-white rounded-3xl card-shadow p-8">
