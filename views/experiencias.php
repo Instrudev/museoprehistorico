@@ -18,7 +18,7 @@
        </div>
        <div class="bg-white rounded-3xl card-shadow p-8 text-center border-2" style="border-color: #F07F1A;">
         <div class="text-6xl mb-4">
-         ���️
+         🛍️
         </div>
         <h4 class="text-2xl font-bold mb-3" style="color: #68420F;">Tienda de Souvenirs</h4>
         <p style="color: #68420F;">Llévate un recuerdo especial: huevos de dinosaurio que crecen en el agua, juguetes, camisetas, gorras y accesorios temáticos de dinosaurios.</p>
@@ -60,7 +60,7 @@
         <div class="rounded-3xl card-shadow p-8" style="background: linear-gradient(135deg, #FFF9E6 0%, #FFFBF0 100%);">
          <div class="flex items-center gap-4 mb-4">
           <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style="background-color: #FADD66;">
-           ���
+           👩‍❤️‍👨
           </div>
           <div>
            <h5 class="font-bold text-lg" style="color: #68420F;">María y Santiago</h5>

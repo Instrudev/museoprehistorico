@@ -32,7 +32,7 @@
         <div>
          <h4 id="dino-name" class="text-4xl font-bold mb-2" style="color: #68420F;">Tiranosaurio Rex</h4>
          <p id="dino-period" class="text-lg font-semibold mb-4" style="color: #F07F1A;">🕐 Cretácico Superior (68-66 millones de años)</p>
-         <p id="dino-description" class="text-lg mb-6" style="color: #68420F;">El rey de los dinosaurios carnívoros. Con más de 12 metros de largo y dientes de hasta 30 cent����metros, este depredador dominó el período Cretácico.</p><!-- Ficha técnica -->
+         <p id="dino-description" class="text-lg mb-6" style="color: #68420F;">El rey de los dinosaurios carnívoros. Con más de 12 metros de largo y dientes de hasta 30 centímetros, este depredador dominó el período Cretácico.</p><!-- Ficha técnica -->
          <div class="grid grid-cols-2 gap-4 mb-6">
           <div class="rounded-xl p-4" style="background-color: #FFF9E6;">
            <p class="text-sm font-semibold mb-1" style="color: #F07F1A;">Longitud</p>

@@ -181,7 +181,7 @@
            </div>
            <div class="text-center p-4 rounded-2xl" style="background-color: rgba(255, 255, 255, 0.9);">
             <div class="text-4xl mb-2">
-             ���
+             ☕
             </div>
             <p class="font-bold" style="color: #68420F;">Café</p>
             <p class="text-sm" style="color: #F07F1A;">Colombiano 100%</p>
@@ -264,7 +264,7 @@
          <ul class="space-y-2 text-sm mb-6" style="color: #68420F;">
           <li>✓ Precios especiales por volumen</li>
           <li>✓ Recorrido guiado privado</li>
-          <li>�� Horario flexible</li>
+          <li>✓ Horario flexible</li>
           <li>✓ Área de descanso reservada</li>
           <li>✓ Coordinador exclusivo</li>
           <li>✓ Pago contra factura disponible</li>
@@ -330,7 +330,7 @@
             <div><strong>Personas con Discapacidad: 50% descuento</strong>
              <p class="text-sm">Aplica presentando carnet o certificado. El acompañante ingresa gratis.</p>
             </div></li>
-           <li class="flex items-start gap-3"><span class="text-2xl">���</span>
+           <li class="flex items-start gap-3"><span class="text-2xl">🧓</span>
             <div><strong>Adultos Mayores (65+): 40% descuento</strong>
              <p class="text-sm">Presentando documento de identidad válido.</p>
             </div></li>
@@ -360,7 +360,7 @@
        <h3 class="text-3xl font-bold mb-6 text-center" style="color: #68420F;">📋 Políticas de la Empresa</h3>
        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="rounded-3xl card-shadow p-6" style="background-color: #FFF9E6;">
-         <h4 class="text-lg font-bold mb-3 flex items-center gap-2" style="color: #F07F1A;"><span class="text-2xl">������</span> Política de Reservas</h4>
+         <h4 class="text-lg font-bold mb-3 flex items-center gap-2" style="color: #F07F1A;"><span class="text-2xl">📅</span> Política de Reservas</h4>
          <ul class="space-y-2 text-sm" style="color: #68420F;">
           <li>• Reservas con 24 horas de anticipación recomendadas</li>
           <li>• Pago anticipado asegura tu cupo</li>
@@ -373,7 +373,7 @@
          <ul class="space-y-2 text-sm" style="color: #68420F;">
           <li>• Reembolso 100% si cancelas con 7 días de anticipación</li>
           <li>• Reembolso 50% si cancelas con 48-72 horas</li>
-          <li>��� Sin reembolso con menos de 48 horas</li>
+          <li>• Sin reembolso con menos de 48 horas</li>
          </ul>
         </div>
         <div class="rounded-3xl card-shadow p-6" style="background-color: #FFF9E6;">
@@ -386,7 +386,7 @@
          </ul>
         </div>
         <div class="rounded-3xl card-shadow p-6" style="background-color: #FFF9E6;">
-         <h4 class="text-lg font-bold mb-3 flex items-center gap-2" style="color: #F07F1A;"><span class="text-2xl">���</span> Sostenibilidad</h4>
+         <h4 class="text-lg font-bold mb-3 flex items-center gap-2" style="color: #F07F1A;"><span class="text-2xl">🌿</span> Sostenibilidad</h4>
          <ul class="space-y-2 text-sm" style="color: #68420F;">
           <li>• Museo 100% libre de plástico de un solo uso</li>
           <li>• Comprometidos con el uso responsable de la energía</li>

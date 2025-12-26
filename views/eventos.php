@@ -33,7 +33,7 @@
           <div class="border-t-2 pt-4" style="border-color: #FADD66;">
            <p class="font-bold mb-2 flex items-center gap-2" style="color: #68420F;"><span class="text-2xl">✓</span> Incluye:</p>
            <ul class="space-y-1 text-sm" style="color: #68420F;">
-            <li>�� Materiales de cerámica y pintura</li>
+            <li>• Materiales de cerámica y pintura</li>
             <li>• Guía de instructor profesional</li>
             <li>• Refrigerio incluido</li>
             <li>• Tu creación para llevar a casa</li>

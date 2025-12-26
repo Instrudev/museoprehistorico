@@ -266,7 +266,7 @@ const defaultConfig = {
       },
       fr: {
         museum_name: "Musée Préhistorique",
-        hero_title: "Découvrez le Pass�� Préhistorique �� Neiva",
+        hero_title: "Découvrez le Passé Préhistorique à Neiva",
         hero_subtitle: "Une expérience éducative unique qui combine science, paix et le monde fascinant des dinosaures dans un environnement accessible à tous.",
         btn_reserve: "Réserver une Visite",
         btn_explore: "Explorer le Parc",
@@ -660,7 +660,7 @@ const defaultConfig = {
           'Su vela dorsal medía hasta 1.8 metros de altura y podría haber servido para regular temperatura o atraer pareja.',
           'Era semi-acuático y pasaba mucho tiempo en el agua cazando peces gigantes y otros animales acuáticos.',
           'Tenía dientes cónicos perfectos para atrapar peces resbaladizos, diferentes a los dientes de sierra de otros carnívoros.',
-          'Sus patas traseras eran más cortas que las de otros ter��podos, adaptadas para nadar eficientemente.'
+          'Sus patas traseras eran más cortas que las de otros terópodos, adaptadas para nadar eficientemente.'
         ]
       }
     ];
