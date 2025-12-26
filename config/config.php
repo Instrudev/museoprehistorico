@@ -8,5 +8,5 @@ return [
         'pass' => '',
         'charset' => 'utf8mb4',
     ],
-    'whatsapp_number' => '57XXXXXXXXXX',
+    'whatsapp_number' => '573142139674',
 ];

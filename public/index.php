@@ -1,20 +1,28 @@
 <?php
-define('BASE_PATH', dirname(__DIR__));
+declare(strict_types=1);
 
-$config = require BASE_PATH . '/config/config.php';
-$whatsappNumber = $config['whatsapp_number'] ?? '';
-$status = $_GET['status'] ?? null;
-$statusMessage = null;
-$statusClass = '';
+/**
+ * Raíz real del proyecto MUSEO
+ */
+define('BASE_PATH', realpath(__DIR__ . '/..'));
 
-if ($status === 'invalid') {
-    $statusMessage = 'Por favor completa todos los campos obligatorios con datos válidos.';
-    $statusClass = 'bg-red-600';
-} elseif ($status === 'error') {
-    $statusMessage = 'No fue posible registrar tu reserva. Inténtalo nuevamente.';
-    $statusClass = 'bg-red-600';
+if (!BASE_PATH) {
+    die('Error crítico: no se pudo resolver la ruta base del proyecto.');
 }
 
+/**
+ * Configuración
+ */
+$configPath = BASE_PATH . '/config/config.php';
+if (!file_exists($configPath)) {
+    die('Archivo de configuración no encontrado.');
+}
+
+$config = require $configPath;
+
+/**
+ * Router por whitelist
+ */
 $allowedPages = [
     'inicio',
     'reservas',
@@ -28,20 +36,36 @@ $allowedPages = [
 $page = $_GET['page'] ?? 'inicio';
 $page = in_array($page, $allowedPages, true) ? $page : 'inicio';
 
-$viewsPath = BASE_PATH . '/views';
-$headerPath = $viewsPath . '/header.php';
-$footerPath = $viewsPath . '/footer.php';
-$viewPath = $viewsPath . '/' . $page . '.php';
+/**
+ * Rutas absolutas a vistas
+ */
+$viewsDir  = BASE_PATH . '/views';
+$header    = $viewsDir . '/header.php';
+$footer    = $viewsDir . '/footer.php';
+$viewFile  = $viewsDir . '/' . $page . '.php';
 
-require_once $headerPath;
-if (is_file($viewPath)) {
-    require_once $viewPath;
+/**
+ * Render
+ */
+require_once $header;
+
+if (is_file($viewFile)) {
+    require_once $viewFile;
 } else {
-    echo '<section class="section-panel py-16 px-6">';
-    echo '<div class="max-w-5xl mx-auto">';
-    echo '<div class="bg-white rounded-3xl card-shadow p-8 text-center">';
-    echo '<h3 class="text-3xl font-bold mb-3" style="color: #68420F;">Contenido no disponible</h3>';
-    echo '<p style="color: #68420F;">No pudimos cargar esta sección. Por favor intenta nuevamente.</p>';
-    echo '</div></div></section>';
+    ?>
+    <section class="section-panel py-16 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="bg-white rounded-3xl card-shadow p-8 text-center">
+                <h3 class="text-3xl font-bold mb-3" style="color:#68420F;">
+                    Sección no disponible
+                </h3>
+                <p style="color:#68420F;">
+                    La página solicitada no existe.
+                </p>
+            </div>
+        </div>
+    </section>
+    <?php
 }
-require_once $footerPath;
+
+require_once $footer;
