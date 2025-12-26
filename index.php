@@ -1,3 +1,18 @@
+<?php
+$config = require __DIR__ . '/config/config.php';
+$whatsappNumber = $config['whatsapp_number'] ?? '';
+$status = $_GET['status'] ?? null;
+$statusMessage = null;
+$statusClass = '';
+
+if ($status === 'invalid') {
+  $statusMessage = 'Por favor completa todos los campos obligatorios con datos válidos.';
+  $statusClass = 'bg-red-600';
+} elseif ($status === 'error') {
+  $statusMessage = 'No fue posible registrar tu reserva. Inténtalo nuevamente.';
+  $statusClass = 'bg-red-600';
+}
+?>
 <!doctype html>
 <html lang="es" class="h-full">
  <head>
@@ -121,24 +136,24 @@
       <div class="bg-white rounded-3xl card-shadow p-8">
        <h3 class="text-3xl font-bold mb-3 text-center" style="color: #68420F;">Reserva tu Visita</h3>
        <p class="text-center mb-8" style="color: #68420F;">Espacios accesibles e inclusivos para todos</p>
-       <form id="reservation-form" class="space-y-6">
+       <form id="reservation-form" class="space-y-6" action="controllers/reservation_controller.php" method="post" novalidate>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <div><label for="visitor-name" class="block font-semibold mb-2" style="color: #68420F;">Nombre Completo *</label> <input type="text" id="visitor-name" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;" placeholder="Ingresa tu nombre">
+         <div><label for="visitor-name" class="block font-semibold mb-2" style="color: #68420F;">Nombre Completo *</label> <input type="text" id="visitor-name" name="full_name" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;" placeholder="Ingresa tu nombre">
          </div>
-         <div><label for="visitor-phone" class="block font-semibold mb-2" style="color: #68420F;">Teléfono / WhatsApp *</label> <input type="tel" id="visitor-phone" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;" placeholder="+57 314 213 9674">
+         <div><label for="visitor-phone" class="block font-semibold mb-2" style="color: #68420F;">Teléfono / WhatsApp *</label> <input type="tel" id="visitor-phone" name="phone" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;" placeholder="+57 314 213 9674">
          </div>
-         <div><label for="visit-date" class="block font-semibold mb-2" style="color: #68420F;">Fecha de Visita *</label> <input type="date" id="visit-date" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;">
+         <div><label for="visit-date" class="block font-semibold mb-2" style="color: #68420F;">Fecha de Visita *</label> <input type="date" id="visit-date" name="visit_date" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;">
          </div>
-         <div><label for="num-people" class="block font-semibold mb-2" style="color: #68420F;">Número de Personas *</label> <select id="num-people" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;"> <option value="">Seleccionar</option> <option>1 persona</option> <option>2-4 personas</option> <option>5-10 personas</option> <option>Más de 10 personas</option> </select>
+         <div><label for="num-people" class="block font-semibold mb-2" style="color: #68420F;">Número de Personas *</label> <select id="num-people" name="num_people" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;"> <option value="">Seleccionar</option> <option>1 persona</option> <option>2-4 personas</option> <option>5-10 personas</option> <option>Más de 10 personas</option> </select>
          </div>
-         <div><label for="tour-type" class="block font-semibold mb-2" style="color: #68420F;">Tipo de Recorrido *</label> <select id="tour-type" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;"> <option value="">Seleccionar</option> <option>Recorrido Guiado</option> <option>Recorrido Libre</option> <option>Recorrido Nocturno</option> <option>Experiencia Premium</option> </select>
+         <div><label for="tour-type" class="block font-semibold mb-2" style="color: #68420F;">Tipo de Recorrido *</label> <select id="tour-type" name="tour_type" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;"> <option value="">Seleccionar</option> <option>Recorrido Guiado</option> <option>Recorrido Libre</option> <option>Recorrido Nocturno</option> <option>Experiencia Premium</option> </select>
          </div>
         </div><!-- Sección de Necesidades Especiales -->
         <div class="border-t-2 pt-6" style="border-color: #FADD66;">
          <h4 class="text-xl font-bold mb-4 flex items-center gap-2" style="color: #68420F;"><span>♿</span> Necesidades de Accesibilidad e Inclusión</h4>
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"><label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="wheelchair" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">♿ Acceso para silla de ruedas</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="sign-language" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">🤟 Intérprete de lengua de señas</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="visual-impairment" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">👁️ Asistencia para discapacidad visual</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="autism" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">���� Recorrido adaptado para autismo</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="senior" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">👴 Recorrido para adultos mayores</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="cognitive" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">🧠 Discapacidad cognitiva</span> </label>
+         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"><label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="wheelchair" name="accessibility_wheelchair" value="1" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">♿ Acceso para silla de ruedas</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="sign-language" name="accessibility_sign_language" value="1" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">🤟 Intérprete de lengua de señas</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="visual-impairment" name="accessibility_visual_impairment" value="1" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">👁️ Asistencia para discapacidad visual</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="autism" name="accessibility_autism" value="1" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">���� Recorrido adaptado para autismo</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="senior" name="accessibility_senior" value="1" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">👴 Recorrido para adultos mayores</span> </label> <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition hover:bg-gray-50" style="border-color: #FADD66;"> <input type="checkbox" id="cognitive" name="accessibility_cognitive" value="1" class="w-5 h-5 rounded" style="accent-color: #F07F1A;"> <span style="color: #68420F;">🧠 Discapacidad cognitiva</span> </label>
          </div>
-         <div><label for="special-notes" class="block font-semibold mb-2" style="color: #68420F;">Notas Adicionales</label> <textarea id="special-notes" rows="3" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;" placeholder="Cuéntanos sobre cualquier otra necesidad especial o preferencia..."></textarea>
+         <div><label for="special-notes" class="block font-semibold mb-2" style="color: #68420F;">Notas Adicionales</label> <textarea id="special-notes" name="special_notes" rows="3" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-orange-400" style="border-color: #FADD66;" placeholder="Cuéntanos sobre cualquier otra necesidad especial o preferencia..."></textarea>
          </div>
         </div><!-- Método de Pago -->
         <div class="border-t-2 pt-6" style="border-color: #FADD66;">
@@ -179,7 +194,12 @@
            </div></label>
          </div>
         </div>
-        <div class="flex gap-4"><button type="submit" class="flex-1 btn-primary px-8 py-4 rounded-full text-white font-bold text-lg" style="background-color: #F07F1A;"> Confirmar Reserva </button> <button type="button" id="btn-whatsapp-reserve" class="btn-primary px-8 py-4 rounded-full text-white font-bold text-lg flex items-center gap-2" style="background-color: #25D366;"> <span class="text-2xl">💬</span> Reservar por WhatsApp </button>
+        <?php if ($statusMessage) { ?>
+         <div class="p-4 rounded-xl text-white font-semibold text-center <?php echo $statusClass; ?>">
+          <?php echo htmlspecialchars($statusMessage, ENT_QUOTES, 'UTF-8'); ?>
+         </div>
+        <?php } ?>
+        <div class="flex gap-4"><button type="submit" class="flex-1 btn-primary px-8 py-4 rounded-full text-white font-bold text-lg" style="background-color: #F07F1A;"> Confirmar Reserva </button> <a href="https://api.whatsapp.com/send?phone=<?php echo urlencode($whatsappNumber); ?>" target="_blank" rel="noopener noreferrer" id="btn-whatsapp-reserve" class="btn-primary px-8 py-4 rounded-full text-white font-bold text-lg flex items-center gap-2" style="background-color: #25D366;"> <span class="text-2xl">💬</span> Reservar por WhatsApp </a>
         </div>
        </form>
       </div>
@@ -1018,7 +1038,7 @@
       </div>
      </div>
     </section>
-   </main><!-- Botón flotante de WhatsApp --> <a href="https://wa.me/573142139674?text=Hola,%20quiero%20información%20sobre%20el%20museo" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-4xl z-50 transition hover:scale-110" style="background-color: #25D366;" aria-label="Contactar por WhatsApp"> 💬 </a> <!-- Footer ACTUALIZADO -->
+   </main><!-- Botón flotante de WhatsApp --> <a href="https://api.whatsapp.com/send?phone=<?php echo urlencode($whatsappNumber); ?>" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-4xl z-50 transition hover:scale-110" style="background-color: #25D366;" aria-label="Contactar por WhatsApp"> 💬 </a> <!-- Footer ACTUALIZADO -->
    <footer class="py-12 px-6 text-white" style="background-color: #68420F;">
     <div class="max-w-6xl mx-auto">
      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8"><!-- Descripción -->
@@ -1576,88 +1596,6 @@
     document.getElementById('btn-lang-fr').addEventListener('click', () => setActiveLanguage('fr'));
 
     // Form submission
-    document.getElementById('reservation-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const name = document.getElementById('visitor-name').value;
-      const phone = document.getElementById('visitor-phone').value;
-      const date = document.getElementById('visit-date').value;
-      const people = document.getElementById('num-people').value;
-      const tour = document.getElementById('tour-type').value;
-      
-      // Gather accessibility needs
-      const needs = [];
-      if (document.getElementById('wheelchair').checked) needs.push('Silla de ruedas');
-      if (document.getElementById('sign-language').checked) needs.push('Lengua de señas');
-      if (document.getElementById('visual-impairment').checked) needs.push('Discapacidad visual');
-      if (document.getElementById('autism').checked) needs.push('Autismo');
-      if (document.getElementById('senior').checked) needs.push('Adulto mayor');
-      if (document.getElementById('cognitive').checked) needs.push('Discapacidad cognitiva');
-      
-      const notes = document.getElementById('special-notes').value;
-      const payment = document.querySelector('input[name="payment"]:checked').value;
-      
-      if (!date || !people || !tour) {
-        const message = document.createElement('div');
-        message.className = 'mt-4 p-4 rounded-xl text-white font-semibold text-center';
-        message.style.backgroundColor = '#E52621';
-        message.textContent = 'Por favor completa todos los campos obligatorios (*)';
-        document.getElementById('reservation-form').appendChild(message);
-        setTimeout(() => message.remove(), 3000);
-        return;
-      }
-      
-      let confirmationText = `¡Reserva confirmada!\n\n👤 ${name}\n📅 ${date}\n👥 ${people}\n🎯 ${tour}\n💳 Pago: ${payment}`;
-      if (needs.length > 0) {
-        confirmationText += `\n♿ Accesibilidad: ${needs.join(', ')}`;
-      }
-      
-      const successMessage = document.createElement('div');
-      successMessage.className = 'mt-4 p-4 rounded-xl text-white font-semibold';
-      successMessage.style.backgroundColor = '#25D366';
-      successMessage.style.whiteSpace = 'pre-line';
-      successMessage.textContent = confirmationText;
-      document.getElementById('reservation-form').appendChild(successMessage);
-      setTimeout(() => successMessage.remove(), 6000);
-    });
-    
-    // WhatsApp reservation button
-    document.getElementById('btn-whatsapp-reserve').addEventListener('click', () => {
-      const name = document.getElementById('visitor-name').value || 'No especificado';
-      const phone = document.getElementById('visitor-phone').value || 'No especificado';
-      const date = document.getElementById('visit-date').value || 'No especificado';
-      const people = document.getElementById('num-people').value || 'No especificado';
-      const tour = document.getElementById('tour-type').value || 'No especificado';
-      
-      const needs = [];
-      if (document.getElementById('wheelchair').checked) needs.push('Silla de ruedas');
-      if (document.getElementById('sign-language').checked) needs.push('Lengua de señas');
-      if (document.getElementById('visual-impairment').checked) needs.push('Discapacidad visual');
-      if (document.getElementById('autism').checked) needs.push('Autismo');
-      if (document.getElementById('senior').checked) needs.push('Adulto mayor');
-      if (document.getElementById('cognitive').checked) needs.push('Discapacidad cognitiva');
-      
-      const notes = document.getElementById('special-notes').value;
-      
-      let message = `Hola! Quiero hacer una reserva:\n\n`;
-      message += `👤 Nombre: ${name}\n`;
-      message += `��� Teléfono: ${phone}\n`;
-      message += `📅 Fecha: ${date}\n`;
-      message += `👥 Personas: ${people}\n`;
-      message += `🎯 Tipo de recorrido: ${tour}\n`;
-      
-      if (needs.length > 0) {
-        message += `\n♿ Necesidades de accesibilidad:\n${needs.map(n => `- ${n}`).join('\n')}\n`;
-      }
-      
-      if (notes) {
-        message += `\n📝 Notas adicionales: ${notes}`;
-      }
-      
-      const whatsappUrl = `https://wa.me/573142139674?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    });
-
     // ============= DINOSAUR CAROUSEL WITH EXPANDED FEATURES =============
     const dinosaurs = [
       { 
