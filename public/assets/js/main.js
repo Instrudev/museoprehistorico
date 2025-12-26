@@ -744,8 +744,10 @@ const defaultConfig = {
       document.body.appendChild(notification);
       setTimeout(() => notification.remove(), 5000);
     });
+    }
 
     // Interactive evolution timeline
+    if (document.getElementById('mapa')) {
     const evolutionData = {
       invertebrados: {
         title: 'Invertebrados',
@@ -890,6 +892,10 @@ const defaultConfig = {
     const evolutionCharacteristics = document.getElementById('evolution-characteristics');
     const evolutionExamples = document.getElementById('evolution-examples');
     const evolutionFact = document.getElementById('evolution-fact');
+
+    if (!evolutionInfoPanel || !evolutionIcon || !evolutionTitle || !evolutionPeriod || !evolutionDescription || !evolutionCharacteristics || !evolutionExamples || !evolutionFact) {
+      return;
+    }
 
     function updateEvolutionStage(stageName) {
       const stage = evolutionData[stageName];
