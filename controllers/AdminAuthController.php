@@ -7,7 +7,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $configPath = __DIR__ . '/../config/admin.php';
 if (!file_exists($configPath)) {
-    header('Location: /admin/index.php?page=login&status=error');
+    // CORRECCIÓN: Apuntar a /MUSEO/views/admin/login.php
+    header('Location: /MUSEO/views/admin/login.php?status=error');
     exit;
 }
 
@@ -20,12 +21,14 @@ $action = $_GET['action'] ?? null;
 if ($action === 'logout') {
     $_SESSION = [];
     session_destroy();
-    header('Location: /admin/index.php?page=login');
+    // CORRECCIÓN: Al salir, volver al login correcto
+    header('Location: /MUSEO/views/admin/login.php');
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /admin/index.php?page=login');
+    // CORRECCIÓN: Si no es POST, devolver al login correcto
+    header('Location: /MUSEO/views/admin/login.php');
     exit;
 }
 
@@ -36,10 +39,13 @@ $usernameMatches = hash('sha256', $username) === $usernameHash;
 $passwordMatches = password_verify($password, $passwordHash);
 
 if (!$usernameMatches || !$passwordMatches) {
-    header('Location: /admin/index.php?page=login&status=invalid');
+    // CORRECCIÓN: Si falla, devolver al login con el error
+    header('Location: /MUSEO/views/admin/login.php?status=invalid');
     exit;
 }
 
 $_SESSION['admin_authenticated'] = true;
-header('Location: /admin/index.php?page=dashboard');
+
+// CORRECCIÓN: Si es exitoso, ir al Dashboard real
+header('Location: /MUSEO/views/admin/dashboard.php');
 exit;

@@ -33,7 +33,7 @@ if ($status === 'invalid') {
             </div>
           <?php } ?>
 
-          <form action="/controllers/AdminAuthController.php" method="post">
+          <form action="/MUSEO/controllers/AdminAuthController.php" method="post">
             <div class="input-group mb-3">
               <input type="text" name="username" class="form-control" placeholder="Usuario" required>
               <div class="input-group-append">
