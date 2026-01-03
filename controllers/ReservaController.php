@@ -14,6 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+$isAjaxRequest = isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+    && strtolower((string) $_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
 $fullName = trim((string) filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 $phone = trim((string) filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 $visitDate = trim((string) filter_input(INPUT_POST, 'visit_date', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
@@ -22,26 +25,24 @@ $tourType = trim((string) filter_input(INPUT_POST, 'tour_type', FILTER_SANITIZE_
 $paymentMethod = trim((string) filter_input(INPUT_POST, 'payment', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 $specialNotes = trim((string) filter_input(INPUT_POST, 'special_notes', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 
-$allowedPeople = [
-    '1 persona',
-    '2-4 personas',
-    '5-10 personas',
-    'Más de 10 personas',
-];
-
-$allowedTours = [
-    'Recorrido Guiado',
-    'Recorrido Libre',
-    'Recorrido Nocturno',
-    'Experiencia Premium',
-];
-
-$allowedPayments = ['pse', 'card', 'onsite'];
+$allowedPeople = Reserva::allowedPeople();
+$allowedTours = Reserva::allowedTours();
+$allowedPayments = Reserva::allowedPayments();
 
 $dateObject = DateTime::createFromFormat('Y-m-d', $visitDate);
 $dateIsValid = $dateObject && $dateObject->format('Y-m-d') === $visitDate;
 
 if ($fullName === '' || $phone === '' || !$dateIsValid || !in_array($numPeople, $allowedPeople, true) || !in_array($tourType, $allowedTours, true) || !in_array($paymentMethod, $allowedPayments, true)) {
+    if ($isAjaxRequest) {
+        http_response_code(422);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'status' => 'invalid',
+            'message' => 'Algunos datos no son válidos. Revisa el formulario y vuelve a intentarlo.',
+        ]);
+        exit;
+    }
+
     header('Location: /public/index.php?status=invalid');
     exit;
 }
@@ -76,6 +77,16 @@ try {
 }
 
 if (!$saved) {
+    if ($isAjaxRequest) {
+        http_response_code(500);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'No pudimos guardar tu reserva en este momento. Inténtalo nuevamente.',
+        ]);
+        exit;
+    }
+
     header('Location: /public/index.php?status=error');
     exit;
 }
@@ -96,5 +107,18 @@ $whatsappUrl = sprintf(
 );
 
 $_SESSION['reservation_whatsapp_url'] = $whatsappUrl;
+
+if ($isAjaxRequest) {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        'status' => 'success',
+        'title' => "¡{$fullName}, tu reserva quedó lista!",
+        'message' => "✅ Tu visita para el {$visitDate} ya está guardada.<br><strong>Ahora te enviaremos a WhatsApp</strong> para confirmar el último detalle.",
+        'confirm_text' => 'Ir a WhatsApp',
+        'whatsapp_url' => $whatsappUrl,
+    ]);
+    exit;
+}
+
 header('Location: /public/index.php?page=reservas&status=success');
 exit;

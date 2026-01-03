@@ -122,6 +122,11 @@
               href="index.php?page=eventos">Eventos</a>
           </nav>
         </div>
+        <div class="flex items-center">
+          <a href="/admin/index.php" class="px-4 py-2 rounded-full font-bold text-sm transition hover:opacity-80" style="background-color: #F07F1A; color: white;">
+            Ingresar
+          </a>
+        </div>
       </div>
     </header><!-- Contenedor SPA -->
     <main id="spa-container" class="w-full" style="height: calc(100% - 60px - 72px);">
