@@ -113,9 +113,9 @@
               style="color: #68420F;"
               href="index.php?page=mapa">Mapa</a>
 
-            <a class="nav-btn font-medium hover:text-orange-500 transition"
+            <!-- <a class="nav-btn font-medium hover:text-orange-500 transition"
               style="color: #68420F;"
-              href="index.php?page=tarifas">Tarifas</a>
+              href="index.php?page=tarifas">Tarifas</a> --!>
 
             <a class="nav-btn font-medium hover:text-orange-500 transition"
               style="color: #68420F;"
