@@ -2,7 +2,7 @@
 
 ## Panel administrativo
 
-**Ruta de acceso:** `/admin/index.php`
+**Ruta de acceso:** `/admin/index.php` (o `/public/admin/index.php` si el servidor apunta a la raíz del proyecto)
 
 **Credenciales iniciales:**
 - Usuario: `admin`
