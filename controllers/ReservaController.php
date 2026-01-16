@@ -2,21 +2,26 @@
 
 require_once __DIR__ . '/../models/Reserva.php';
 
+// Cargar configuración (asegúrate de que este archivo devuelva un array)
 $config = require __DIR__ . '/../config/config.php';
-$whatsappNumber = $config['whatsapp_number'] ?? '';
+$whatsappNumber = $config['whatsapp_number'] ?? '573142139674'; // Puse el número por defecto por si falla la config
 
+// Iniciar sesión para guardar mensajes flash o URL de WhatsApp
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Si intentan entrar directo por la URL sin enviar datos POST, los sacamos
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /public/index.php');
+    // AJUSTE: Ruta con /MUSEO/
+    header('Location: /museo/public/index.php?page=reservas');
     exit;
 }
 
 $isAjaxRequest = isset($_SERVER['HTTP_X_REQUESTED_WITH'])
     && strtolower((string) $_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
+// Sanitización de entradas
 $fullName = trim((string) filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 $phone = trim((string) filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 $visitDate = trim((string) filter_input(INPUT_POST, 'visit_date', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
@@ -25,13 +30,27 @@ $tourType = trim((string) filter_input(INPUT_POST, 'tour_type', FILTER_SANITIZE_
 $paymentMethod = trim((string) filter_input(INPUT_POST, 'payment', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 $specialNotes = trim((string) filter_input(INPUT_POST, 'special_notes', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 
-$allowedPeople = Reserva::allowedPeople();
-$allowedTours = Reserva::allowedTours();
-$allowedPayments = Reserva::allowedPayments();
+// Listas de validación
+$allowedPeople = [
+    '1 persona',
+    '2-4 personas',
+    '5-10 personas',
+    'Más de 10 personas',
+];
+
+$allowedTours = [
+    'Recorrido Guiado',
+    'Recorrido Libre',
+    'Recorrido Nocturno',
+    'Experiencia Premium',
+];
+
+$allowedPayments = ['pse', 'card', 'onsite'];
 
 $dateObject = DateTime::createFromFormat('Y-m-d', $visitDate);
 $dateIsValid = $dateObject && $dateObject->format('Y-m-d') === $visitDate;
 
+// Validación de campos
 if ($fullName === '' || $phone === '' || !$dateIsValid || !in_array($numPeople, $allowedPeople, true) || !in_array($tourType, $allowedTours, true) || !in_array($paymentMethod, $allowedPayments, true)) {
     if ($isAjaxRequest) {
         http_response_code(422);
@@ -43,10 +62,12 @@ if ($fullName === '' || $phone === '' || !$dateIsValid || !in_array($numPeople, 
         exit;
     }
 
-    header('Location: /public/index.php?status=invalid');
+    // AJUSTE: Ruta con /MUSEO/ y ?page=reservas para volver al formulario
+    header('Location: /MUSEO/public/index.php?page=reservas&status=invalid');
     exit;
 }
 
+// Checkboxes de accesibilidad
 $accessibilityWheelchair = isset($_POST['accessibility_wheelchair']) ? 1 : 0;
 $accessibilitySignLanguage = isset($_POST['accessibility_sign_language']) ? 1 : 0;
 $accessibilityVisualImpairment = isset($_POST['accessibility_visual_impairment']) ? 1 : 0;
@@ -73,6 +94,7 @@ try {
         'special_notes' => $specialNotes,
     ]);
 } catch (PDOException $exception) {
+    // Opcional: Log del error real $exception->getMessage()
     $saved = false;
 }
 
@@ -87,10 +109,12 @@ if (!$saved) {
         exit;
     }
 
-    header('Location: /public/index.php?status=error');
+    // AJUSTE: Ruta con /MUSEO/ y ?page=reservas
+    header('Location: /MUSEO/public/index.php?page=reservas&status=error');
     exit;
 }
 
+// Preparar mensaje de WhatsApp
 $message = "Hola 👋\n";
 $message .= "He realizado una reserva en el Museo Prehistórico Huilassik Park para la Paz.\n\n";
 $message .= "📌 Nombre: {$fullName}\n";
@@ -106,6 +130,7 @@ $whatsappUrl = sprintf(
     urlencode($message)
 );
 
+// Guardar URL en sesión para redirigir desde la vista
 $_SESSION['reservation_whatsapp_url'] = $whatsappUrl;
 
 if ($isAjaxRequest) {
@@ -120,5 +145,6 @@ if ($isAjaxRequest) {
     exit;
 }
 
-header('Location: /public/index.php?page=reservas&status=success');
+// AJUSTE FINAL: Ruta correcta con /MUSEO/
+header('Location: /MUSEO/public/index.php?page=reservas&status=success');
 exit;

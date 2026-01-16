@@ -12,6 +12,7 @@ if (!BASE_PATH) {
     die('Error crítico: no se pudo resolver la ruta base del proyecto.');
 }
 
+
 /**
  * Configuración
  */

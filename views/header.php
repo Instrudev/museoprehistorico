@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+   <link rel="icon" type="image/x-icon" href="../public/assets/img/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Museo Prehistórico Huilassik Park para la Paz</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
@@ -91,7 +92,8 @@
     <header class="w-full bg-white border-b-2 border-gray-100 py-4 px-6" style="margin-top: 60px;">
       <div class="max-w-7xl mx-auto flex items-center justify-between">
         <div class="flex items-center space-x-8">
-          <h1 id="museum-name" class="text-2xl font-bold cursor-pointer" style="color: #68420F;">Museo Prehistórico</h1>
+          
+          <img id="museum-name" class="text-2xl font-bold cursor-pointer" style="color: #68420F;"  src="../public/assets/img/Logo Letra.png" width="120 auto">
           <nav class="hidden md:flex space-x-6">
             <a class="nav-btn font-medium hover:text-orange-500 transition"
               style="color: #68420F;"
