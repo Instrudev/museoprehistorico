@@ -9,12 +9,12 @@
                     Una experiencia educativa única que combina ciencia, paz y el fascinante mundo de los dinosaurios en un entorno accesible para todos.
                 </p>
 
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <a id="btn-hero-reservar" class="btn-primary px-8 py-4 rounded-full text-white font-bold text-lg hover:shadow-lg transition transform hover:-translate-y-1" href="index.php?page=reservas">
-                       <img src="<?= $BASE_URL ?>/public/assets/img/reserva.png" alt="">
+                <div class="hero-cta-group flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a id="btn-hero-reservar" class="btn-primary hero-cta text-white font-bold text-lg" href="index.php?page=reservas" aria-label="Reservar visita">
+                       <img src="<?= $BASE_URL ?>/public/assets/img/reserva.png" alt="Reservar visita">
                     </a> 
-                    <a id="btn-hero-explorar" class="btn-primary px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transition transform hover:-translate-y-1"  href="/public/index.php?page=mapa">
-                        <img src="<?= $BASE_URL ?>/public/assets/img/explorar.png" alt="" >
+                    <a id="btn-hero-explorar" class="btn-primary hero-cta font-bold text-lg"  href="/public/index.php?page=mapa" aria-label="Explorar el parque">
+                        <img src="<?= $BASE_URL ?>/public/assets/img/explorar.png" alt="Explorar parque">
                     </a>
                 </div>
             </div>
