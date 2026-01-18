@@ -4,6 +4,8 @@ require_once __DIR__ . '/../config/database.php';
 
 class Reserva
 {
+    private ?array $columnsCache = null;
+
     public static function allowedPeople(): array
     {
         return [
@@ -158,5 +160,82 @@ class Reserva
         $result = $statement->fetch();
 
         return (int) ($result['total'] ?? 0);
+    }
+
+    public function countPending(): int
+    {
+        $statusColumn = $this->getStatusColumn();
+        if ($statusColumn === null) {
+            return $this->countAll();
+        }
+
+        $pdo = getDatabaseConnection();
+        $sql = "SELECT COUNT(*) AS total FROM reservations WHERE LOWER({$statusColumn}) IN ('pendiente', 'pending')";
+        $statement = $pdo->query($sql);
+        $result = $statement->fetch();
+
+        return (int) ($result['total'] ?? 0);
+    }
+
+    public function pending(): array
+    {
+        $statusColumn = $this->getStatusColumn();
+        if ($statusColumn === null) {
+            return $this->all();
+        }
+
+        $pdo = getDatabaseConnection();
+        $sql = "SELECT * FROM reservations WHERE LOWER({$statusColumn}) IN ('pendiente', 'pending') ORDER BY created_at DESC";
+        $statement = $pdo->query($sql);
+
+        return $statement->fetchAll();
+    }
+
+    public function updateStatus(int $id, string $status): bool
+    {
+        $statusColumn = $this->getStatusColumn();
+        if ($statusColumn === null) {
+            return false;
+        }
+
+        $pdo = getDatabaseConnection();
+        $sql = "UPDATE reservations SET {$statusColumn} = :status WHERE id = :id";
+        $statement = $pdo->prepare($sql);
+
+        return $statement->execute([
+            ':status' => $status,
+            ':id' => $id,
+        ]);
+    }
+
+    public function getStatusColumn(): ?string
+    {
+        $columns = $this->getColumns();
+
+        foreach (['status', 'estado'] as $candidate) {
+            if (in_array($candidate, $columns, true)) {
+                return $candidate;
+            }
+        }
+
+        return null;
+    }
+
+    public function getColumns(): array
+    {
+        if ($this->columnsCache !== null) {
+            return $this->columnsCache;
+        }
+
+        $pdo = getDatabaseConnection();
+        $statement = $pdo->query('SHOW COLUMNS FROM reservations');
+        $columns = $statement->fetchAll();
+
+        $this->columnsCache = array_map(
+            static fn (array $column): string => (string) ($column['Field'] ?? ''),
+            $columns
+        );
+
+        return $this->columnsCache;
     }
 }

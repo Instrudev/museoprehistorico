@@ -49,6 +49,41 @@
       box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
 
+    .hero-cta-group {
+      align-items: center;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-inline-size: clamp(220px, 26vw, 280px);
+      inline-size: min(100%, clamp(220px, 26vw, 280px));
+      padding: clamp(0.6rem, 1.5vw, 0.95rem) clamp(1rem, 2.5vw, 1.6rem);
+      border-radius: 9999px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hero-cta img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+    }
+
+    .hero-cta:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+    }
+
+    .hero-cta:active {
+      transform: scale(0.99);
+    }
+
+    .hero-cta:focus-visible {
+      outline: 3px solid #FADD66;
+      outline-offset: 3px;
+    }
+
     /* Accesibilidad */
     .dark-mode { background-color: #1a1a1a; color: #ffffff; }
     .dark-mode .card-shadow{
@@ -136,7 +171,7 @@
         </div>
 
         <div class="flex items-center">
-          <a href="<?= $BASE_URL ?>/views/admin/login.php"
+          <a href="<?= $BASE_URL ?>/admin/login.php"
              class="px-4 py-2 rounded-full font-bold text-sm transition hover:opacity-80"
              style="background-color:#F07F1A; color:white;">
             Ingresar
